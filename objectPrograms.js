@@ -9,7 +9,7 @@ const car = {
     console.log(
       `Car Details Brand: ${this.brand}, Model: ${this.model}, Year: ${this.year}`
     );
-  },
+  }
 };
 // car.displayInfo();
 
@@ -74,7 +74,7 @@ const merged = { ...obj1, ...obj2 };
 const merged2 = {
   ...obj1,
   ...obj2,
-  b: `${obj1.b}, ${obj2.b}`,
+  b: `${obj1.b}, ${obj2.b}`
 };
 // console.log(merged);
 // console.log(merged2);
@@ -89,7 +89,9 @@ const findNumberOfProperties = (arr) => {
 
 // Filter an object to contain only specific keys
 const filterObject = (obj, keys) => {
-  return Object.fromEntries(Object.entries(obj).filter(([k]) => keys.includes(k)));
+  return Object.fromEntries(
+    Object.entries(obj).filter(([k]) => keys.includes(k))
+  );
 };
 
 const person = { name: "Alice", age: 30, city: "Paris" };
@@ -109,9 +111,10 @@ const users = [
   { id: 2, name: "Bob" }
 ];
 
-const userMap = Object.fromEntries(users.map(user => [user.id,user]))
-console.log(userMap);
-/*
+const userMap = Object.fromEntries(users.map((user) => [user.id, user]));
+// console.log(userMap);
+
+/* 
 users.map(user => [user.id, user])
   Converts each user into a [key, value] pair ([id, user]).
 
@@ -119,3 +122,32 @@ Object.fromEntries()
   Turns the array of [key, value] pairs into an object.
 */
 
+// Check if a key exists in an object
+const personDetail = {
+  id: 1,
+  name: "Alice",
+  age: 20,
+
+  id: 2,
+  name: "Bob",
+  age: 23
+};
+// console.log("age" in personDetail);
+// console.log(personDetail.hasOwnProperty("age"));
+// console.log(personDetail.hasOwnProperty("address"));
+
+// Group an array of objects by a property
+const people = [
+  { name: "Alice", age: 25 },
+  { name: "Bob", age: 30 },
+  { name: "Carol", age: 25 }
+];
+
+const groupedByAge = people.reduce((acc, person) => {
+  const { age } = person;
+  if (!acc[age]) acc[age] = [];
+  acc[age].push(person);
+  return acc;
+}, {});
+
+console.log(groupedByAge);
