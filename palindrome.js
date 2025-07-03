@@ -9,3 +9,12 @@ function palindrome(str) {
   }
 }
 palindrome("Wow");
+
+// Check if a number is a palindrome (e.g., 121).
+let palindromeNumber = 121;
+const isPalindrome = (num) => {
+  const strNum = num.toString();
+  const reversedStrNum = strNum.split("").reverse().join("");
+  return strNum === reversedStrNum;
+};
+console.log(`${palindromeNumber} is palindrome: ${isPalindrome(palindromeNumber)}`);
