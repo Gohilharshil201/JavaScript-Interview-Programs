@@ -27,6 +27,7 @@ const sorting = (arr) => {
   arr.sort();
   return arr;
 };
+// console.log(sorting([5, 2, 9, 1, 5]));
 // console.log(sorting([5,3,2,1]));
 
 // Find the second-largest number in an array.
@@ -72,4 +73,56 @@ function chunkArray(arr, size) {
 }
 
 const numbers = [1, 2, 3, 4, 5, 6, 7];
-console.log(chunkArray(numbers, 3));
+// console.log(chunkArray(numbers, 3));
+
+//Find the GCD (Greatest Common Divisor) of two numbers
+const GCD = (a, b) => {
+  while (b != 0) {
+    let temp = b;
+    b = a % b;
+    a = temp;
+  }
+  return a;
+};
+// console.log(GCD(48, 18));
+
+// Check if a number is a perfect square
+function isPerfectSquare(num) {
+  return Number.isInteger(Math.sqrt(num));
+}
+
+// console.log(isPerfectSquare(25));
+// console.log(isPerfectSquare(26));
+
+// Check if a number is an Armstrong number (e.g., 153 → 1³ + 5³ + 3³ = 153)
+function isArmstrong(num) {
+  const digits = num.toString().split("");
+  const power = digits.length;
+  const sum = digits.reduce((acc, d) => acc + Math.pow(+d, power), 0);
+  return sum === num;
+}
+
+// console.log(isArmstrong(153));
+// console.log(isArmstrong(123));
+
+// Implement linear search
+function linearSearch(arr, target) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) return i;
+  }
+  return -1;
+}
+
+// console.log(linearSearch([3, 5, 7, 9], 7));
+
+//Find the first non-repeating character in a string
+function firstNonRepeatingChar(str) {
+  for (let char of str) {
+    if (str.indexOf(char) === str.lastIndexOf(char)) {
+      return char;
+    }
+  }
+  return null;
+}
+
+console.log(firstNonRepeatingChar("aabbcde"));
