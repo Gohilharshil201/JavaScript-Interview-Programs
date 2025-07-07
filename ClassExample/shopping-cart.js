@@ -1,9 +1,10 @@
 // Product Class
 class Product {
-  constructor(id, name, price) {
+  constructor(id, name, price, image = "🛒") {
     this.id = id;
     this.name = name;
     this.price = price;
+    this.image = image;
   }
 }
 
@@ -34,14 +35,31 @@ class ShoppingCart {
     } else {
       this.items.push(new CartItem(product));
     }
+    this.updateUI();
   }
 
   removeItem(productId) {
     this.items = this.items.filter((item) => item.product.id !== productId);
+    this.updateUI();
   }
 
   getTotal() {
     return this.items.reduce((total, item) => total + item.getTotal(), 0);
+  }
+
+  getItemCount() {
+    return this.items.reduce((count, item) => count + item.quantity, 0);
+  }
+
+  clear() {
+    this.items = [];
+    this.updateUI();
+  }
+
+  updateUI() {
+    displayCart();
+    document.getElementById("cart-count").textContent = this.getItemCount();
+    document.getElementById("checkout-btn").disabled = this.items.length === 0;
   }
 }
 
@@ -51,14 +69,19 @@ function displayProducts() {
   productList.innerHTML = "";
 
   products.forEach((product) => {
-    const productElement = document.createElement("div");
-    productElement.className = "product";
-    productElement.innerHTML = `
-            <h3>${product.name}</h3>
-            <p>$${product.price.toFixed(2)}</p>
-            <button onclick="addToCart(${product.id})">Add to Cart</button>
+    const productCard = document.createElement("div");
+    productCard.className = "product-card";
+    productCard.innerHTML = `
+            <div style="font-size: 2em; text-align: center;">${
+              product.image
+            }</div>
+            <div class="product-name">${product.name}</div>
+            <div class="product-price">$${product.price.toFixed(2)}</div>
+            <button class="add-to-cart" onclick="addToCart(${product.id})">
+                ➕ Add to Cart
+            </button>
         `;
-    productList.appendChild(productElement);
+    productList.appendChild(productCard);
   });
 }
 
@@ -66,16 +89,26 @@ function displayCart() {
   const cartItems = document.getElementById("cart-items");
   cartItems.innerHTML = "";
 
-  cart.items.forEach((item) => {
-    const cartItem = document.createElement("div");
-    cartItem.className = "cart-item";
-    cartItem.innerHTML = `
-            <span>${item.product.name} x${item.quantity}</span>
-            <span>$${item.getTotal().toFixed(2)}</span>
-            <button onclick="removeFromCart(${item.product.id})">Remove</button>
-        `;
-    cartItems.appendChild(cartItem);
-  });
+  if (cart.items.length === 0) {
+    cartItems.innerHTML = "<p>Your cart is empty</p>";
+  } else {
+    cart.items.forEach((item) => {
+      const cartItem = document.createElement("div");
+      cartItem.className = "cart-item";
+      cartItem.innerHTML = `
+                <div class="cart-item-name">
+                    ${item.product.name} x${item.quantity}
+                </div>
+                <div class="cart-item-price">
+                    $${item.getTotal().toFixed(2)}
+                </div>
+                <span class="remove-item" onclick="removeFromCart(${
+                  item.product.id
+                })">✖</span>
+            `;
+      cartItems.appendChild(cartItem);
+    });
+  }
 
   document.getElementById("cart-total").textContent = `Total: $${cart
     .getTotal()
@@ -85,25 +118,35 @@ function displayCart() {
 function addToCart(productId) {
   const product = products.find((p) => p.id === productId);
   cart.addItem(product);
-  displayCart();
 }
 
 function removeFromCart(productId) {
   cart.removeItem(productId);
-  displayCart();
 }
 
 function checkout() {
-  alert(`Order placed! Total: $${cart.getTotal().toFixed(2)}`);
-  cart.items = [];
-  displayCart();
+  const orderMessage = document.getElementById("order-message");
+  orderMessage.textContent = `Order placed successfully! Total: $${cart
+    .getTotal()
+    .toFixed(2)}`;
+  orderMessage.className = "order-message order-success";
+  orderMessage.style.display = "block";
+
+  setTimeout(() => {
+    orderMessage.style.display = "none";
+  }, 3000);
+
+  cart.clear();
 }
 
 // Sample Data
 const products = [
-  new Product(1, "Headphones", 49.99),
-  new Product(2, "Phone Case", 19.99),
-  new Product(3, "USB Cable", 9.99)
+  new Product(1, "Wireless Headphones", 99.99, "🎧"),
+  new Product(2, "Smartphone", 699.99, "📱"),
+  new Product(3, "Laptop", 1299.99, "💻"),
+  new Product(4, "Smart Watch", 249.99, "⌚"),
+  new Product(5, "Bluetooth Speaker", 79.99, "🔊"),
+  new Product(6, "4K TV", 899.99, "📺")
 ];
 
 const cart = new ShoppingCart();
@@ -111,6 +154,7 @@ const cart = new ShoppingCart();
 // Initialize
 displayProducts();
 displayCart();
+document.getElementById("checkout-btn").disabled = true;
 
 // Event Listeners
 document.getElementById("checkout-btn").addEventListener("click", checkout);

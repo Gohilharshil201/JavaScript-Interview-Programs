@@ -8,18 +8,19 @@
   </head>
   <body>
     <div class="container">
-      <h1>Simple Shopping Cart</h1>
+      <h1>🛒 Simple Shopping Cart</h1>
 
       <div class="products">
-        <h2>Products</h2>
-        <div id="product-list"></div>
+        <h2>🛍️ Products</h2>
+        <div id="product-list" class="product-grid"></div>
       </div>
 
       <div class="cart">
-        <h2>Your Cart</h2>
-        <div id="cart-items"></div>
-        <div id="cart-total">Total: $0.00</div>
-        <button id="checkout-btn">Checkout</button>
+        <h2>🛒 Your Cart (<span id="cart-count">0</span>)</h2>
+        <div id="cart-items" class="cart-items"></div>
+        <div id="cart-total" class="cart-total">Total: $0.00</div>
+        <button id="checkout-btn" class="checkout-btn">💳 Checkout</button>
+        <div id="order-message" class="order-message"></div>
       </div>
     </div>
 
