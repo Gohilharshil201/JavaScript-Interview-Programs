@@ -1,10 +1,10 @@
-const Api = "https://jsonplaceholder.typicode.com/users/2";
+const API = "https://jsonplaceholder.typicode.com/users/2";
 
 const fetchUser = () => {
   return new Promise((resolve, reject) => {
     // resolve("data successfully fetch.")
     setTimeout(() => {
-      fetch(Api)
+      fetch(API)
         .then((res) => {
           if (!res.ok) throw new Error("Network error");
           return res.json();
@@ -26,14 +26,14 @@ const loadUser = () => {
   fetchUser()
     .then((user) => {
       output.innerHTML = `<p>
-      <strong>Name :</strong>${user.name}
-    </p>
-        <p>
-      <strong>Email :</strong>${user.email}
-    </p>
-        <p>
-      <strong>City :</strong>${user.address.city}
+      <strong>Name :</strong>${user.message}
     </p>`;
+      //     <p>
+      //   <strong>Email :</strong>${user.email}
+      // </p>
+      //     <p>
+      //   <strong>City :</strong>${user.address.city}
+      // </p>`;
     })
     .catch((err) => {
       output.innerHTML = `<p style="color:red">❌ Error: ${err.message}</p>`;
