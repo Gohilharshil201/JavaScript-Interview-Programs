@@ -2,4 +2,4 @@
 const reverseString = (str) => {
   return str.split("").reverse().join("");
 };
-console.log(reverseString("Wow"));
+console.log(reverseString("Harshil"));
